@@ -6,7 +6,8 @@
         onDrag,
         onDragEnd,
         grabPointX,
-        grabPointY;
+        grabPointY,
+        createNote;
 
     onDragStart = function (ev) {
         var boundingClientRect;
@@ -44,13 +45,26 @@
 
     };    
 
-    onDragEnd = function {
+    onDragEnd = function (){
         draggedEl = null;
         grabPointX = null;
         grabPointY = null;
     };
 
-        
+    createNote = function(){
+        var stickerEl = document.createElement('div'),
+            barEl = document.createElement('div'),
+            textareaEl = document.createElement('textarea')
+
+        barEl.classList.add('bar');
+        stickerEl.classList.add('sticker');
+
+        stickerEl.appendChild(barEl);
+        stickerEl.appendChild(textareaEl);
+
+        document.body.appendChild(stickerEl);
+    }    
+        createNote();
         document.addEventListener('mousemove' , onDrag, false);
         document.addEventListener('mouseup' , onDragEnd , false);
         document.querySelector('.sticker').addEventListener('mousedown', onDragStart, false) ;    
