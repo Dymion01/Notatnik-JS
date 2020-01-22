@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var draggedEL,
+    var draggedEl,
         onDragStart,
         onDrag,
         onDragEnd,
@@ -13,32 +13,49 @@
         if(ev.target.className.indexOf('bar') === -1) {
             return;
         }
-        draggedEL = this;
+        draggedEl = this;
 
-        boundingClientRect = draggedEL.getBoundingClientRect();
+        boundingClientRect = draggedEl.getBoundingClientRect();
 
 
-        grabPointX = boundingClientRect.left - ev.clientY;
-        grabPointY = boundingClientRect.top - ev.clientY;
+        grabPointX = boundingClientRect.left - ev.clientX;
+        grabPointY = boundingClientRect.top -  ev.clientY;
 
     };
 
     onDrag = function (ev){
-        if(!draggedEL) {
+        if(!draggedEl) {
             return;
         }
 
-        var posX = ev.cientX + grabPointX,
+        var posX = ev.clientX + grabPointX,
             posY = ev.clientY + grabPointY;
 
-        draggedEL.style.transform = "translateX(" + posX + "px) translateY(" + posY + "px)";
+
+        if (posX < 0){
+            posX = 0;
+        }
+
+        if(posY < 0){
+            posY = 0;
+        }
+
+        draggedEl.style.transform = "translateX(" + posX + "px) translateY(" + posY + "px)";
+
+    };    
+
+    onDragEnd = function {
+        draggedEl = null;
+        grabPointX = null;
+        grabPointY = null;
+    };
+
         
-        document
-            .addEventListener('mousemove' , onDrag, false);
-        
+        document.addEventListener('mousemove' , onDrag, false);
+        document.addEventListener('mouseup' , onDragEnd , false);
         document.querySelector('.sticker').addEventListener('mousedown', onDragStart, false) ;    
-    }
+    
 
 
 
-})
+})();
