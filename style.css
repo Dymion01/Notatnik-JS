@@ -36,4 +36,9 @@ body {
 
 .sticker .bar:hover {
     cursor: move;
+    background-color: rgb(250, 178, 170) ;
+}
+
+.sticker:hover {
+    z-index: 1;
 }
