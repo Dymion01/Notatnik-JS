@@ -42,3 +42,25 @@ body {
 .sticker:hover {
     z-index: 1;
 }
+
+.saveButton,
+.deleteButton{
+    border: none;
+    position: absolute;
+    top:2px;
+    height: 15px;
+    width: 15px;
+    cursor: pointer;
+
+}
+
+.deleteButton{
+    border-radius: 50%;
+    right:  5px;
+    background-color: darkred;
+}
+
+.saveButton{
+    background-color: green;
+    left: 5px;
+}
