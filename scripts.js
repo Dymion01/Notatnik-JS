@@ -12,7 +12,11 @@
         testLocalStroage,
         saveNote,
         deleteNote,
-        loadNotes;
+        loadNotes,
+        init,
+        GetNoteObject,
+        onAddNoteBtnClick;
+
 
     onDragStart = function (ev) {
         var boundingClientRect;
@@ -56,14 +60,28 @@
         grabPointY = null;
     };
 
-    createNote = function(){
+    GetNoteObject = function (el) {
+        var textarea = el.querySelector('textarea');
+        return{
+            content: textarea.value,
+            id: el.id,
+            transformCssValue: el.style.transform
+        };
+    }
+
+    createNote = function(options){
         var stickerEl = document.createElement('div'),
             barEl = document.createElement('div'),
             textareaEl = document.createElement('textarea'),
             saveBtnEl = document.createElement('button'),
             deleteBtnEl = document.createElement('button'),
             onSave,
-            onDelete;
+            onDelete,
+            noteConfig = options || {
+                content: '',
+                id: "sticker_" + new Date().getTime(),
+                transformCssValue:  "translateX(" +Math.random() * 1000 + "px) translateY(" + Math.random() * 400 + "px)"
+            };
 
         onDelete = function () {
             var obj = {};
@@ -71,16 +89,20 @@
         };   
 
         onSave = function () {
-            var obj = {};
-            saveNote;
+
+            saveNote(
+             GetNoteObject(stickerEl)
+            );
         };
+
+        stickerEl.id = noteConfig.id;
+        textareaEl.value = noteConfig.content;
 
         saveBtnEl.addEventListener('click', onSave);
         deleteBtnEl.addEventListener('click', onDelete);
 
-        var transformCssValue = "translateX(" +Math.random() * 1000 + "px) translateY(" + Math.random() * 400 + "px)";
-
-        stickerEl.style.transform = transformCssValue;
+ 
+        stickerEl.style.transform = noteConfig.transformCssValue; 
 
         saveBtnEl.classList.add('saveButton');
         deleteBtnEl.classList.add('deleteButton');
@@ -107,32 +129,46 @@
             return false
         }
     };
-     
+    
+
+    onAddNoteBtnClick = function() {
+        createNote();
+    };
+
     init = function (){
 
         if(!testLocalStroage()) {
             var message = "Nie można użyć localStorage";
         } else {
             saveNote = function (note){
-
+            localStorage.setItem(note.id , note);
             };
             deleteNote = function (note){
 
             };
-            loadNotes = function (note){
-
+            loadNotes = function (){
+                for(var i = 0; i < localStorage.length; i++) {
+     
+                    var noteObject = 
+                        localStorage.getItem(
+                            localStorage.key(i)
+                            
+                    );
+                    
+                    createNote( noteObject);
+                }
             };
 
             loadNotes();
-        };
+        }
         
         addNoteBtnEl = document.querySelector('.addNoteBtn');
-        addNoteBtnEl.addEventListener('click' , createNote , false);
+        addNoteBtnEl.addEventListener('click' , onAddNoteBtnClick , false);
         document.addEventListener('mousemove' , onDrag, false);
         document.addEventListener('mouseup' , onDragEnd , false);
     };
     
 
-
+    init();
 
 })();
