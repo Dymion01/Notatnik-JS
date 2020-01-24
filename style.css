@@ -64,3 +64,10 @@ body {
     background-color: green;
     left: 5px;
 }
+
+.dataarea{
+    border: none;
+    position: absolute;
+    top:2px;
+    background-color: blue;
+}

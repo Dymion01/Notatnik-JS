@@ -72,6 +72,7 @@
     createNote = function(options){
         var stickerEl = document.createElement('div'),
             barEl = document.createElement('div'),
+            dateareaEl =document.createElement('div'),
             textareaEl = document.createElement('textarea'),
             saveBtnEl = document.createElement('button'),
             deleteBtnEl = document.createElement('button'),
@@ -80,12 +81,13 @@
             noteConfig = options || {
                 content: '',
                 id: "sticker_" + new Date().getTime(),
-                transformCssValue:  "translateX(" +Math.random() * 1000 + "px) translateY(" + Math.random() * 400 + "px)"
+                transformCssValue:  "translateX(" +Math.random() * 1000 + "px) translateY(" + Math.random() * 400 + "px)",
+                date:  new Date().getTime()
             };
 
         onDelete = function () {
-            var obj = {};
-            deleteNote(obj);
+
+            deleteNote(GetNoteObject(stickerEl));
         };   
 
         onSave = function () {
@@ -95,21 +97,21 @@
             );
         };
 
-        stickerEl.id = noteConfig.id;
-        textareaEl.value = noteConfig.content;
-
         saveBtnEl.addEventListener('click', onSave);
         deleteBtnEl.addEventListener('click', onDelete);
 
-
+        stickerEl.id = noteConfig.id;
+        textareaEl.value = noteConfig.content;
         stickerEl.style.transform = noteConfig.transformCssValue; 
 
         saveBtnEl.classList.add('saveButton');
         deleteBtnEl.classList.add('deleteButton');
         barEl.classList.add('bar');
+        dateareaEl.classList.add('dataarea');
         stickerEl.classList.add('sticker');
 
         barEl.appendChild(saveBtnEl);
+        barEl.appendChild(dateareaEl);
         barEl.appendChild(deleteBtnEl);
         stickerEl.appendChild(barEl);
         stickerEl.appendChild(textareaEl);
