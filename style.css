@@ -44,7 +44,9 @@ body {
 }
 
 .saveButton,
-.deleteButton{
+.deleteButton,
+.choosecolorButton,
+.colorButton{
     border: none;
     position: absolute;
     top:2px;
@@ -65,9 +67,21 @@ body {
     left: 5px;
 }
 
-.dataarea{
+.choosecolorButton{
+    background-color: royalblue;
+    right: 25px;
+}
+.colorButton{
+    background-color: saddlebrown;
+    right: 40px;
+}
+.timearea{
     border: none;
     position: absolute;
     top:2px;
-    background-color: blue;
+    left: 30px;
+    height: 15px;
+    width: 40px;
+    background-color: transparent;
+    z-index: 1;
 }

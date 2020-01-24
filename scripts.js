@@ -62,27 +62,38 @@
 
     GetNoteObject = function (el) {
         var textarea = el.querySelector('textarea');
+        var timearea = el.querySelector('.timearea');
+        var colorOfNote = el.querySelector('.bar');
         return{
             content: textarea.value,
             id: el.id,
-            transformCssValue: el.style.transform
-        };
+            transformCssValue: el.style.transform,
+            time: timearea.innerText,
+            color: colorOfNote.style.backgroundColor
+               };
     }
 
     createNote = function(options){
         var stickerEl = document.createElement('div'),
             barEl = document.createElement('div'),
-            dateareaEl =document.createElement('div'),
+            timeareaEl =document.createElement('div'),
             textareaEl = document.createElement('textarea'),
             saveBtnEl = document.createElement('button'),
             deleteBtnEl = document.createElement('button'),
+            colorBtnEl = document.createElement('button'),
+            choosecolorBtnEl = document.createElement('input'),
             onSave,
             onDelete,
+            changeColor,
+            time = new Date(),
+            
             noteConfig = options || {
                 content: '',
                 id: "sticker_" + new Date().getTime(),
                 transformCssValue:  "translateX(" +Math.random() * 1000 + "px) translateY(" + Math.random() * 400 + "px)",
-                date:  new Date().getTime()
+                
+                time: `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`,
+                color: choosecolorBtnEl.value
             };
 
         onDelete = function () {
@@ -96,23 +107,35 @@
              GetNoteObject(stickerEl)
             );
         };
+        changeColor = function(){
+            barEl.style.backgroundColor = barEl.querySelector('.choosecolorButton').value;
+        };
+
 
         saveBtnEl.addEventListener('click', onSave);
         deleteBtnEl.addEventListener('click', onDelete);
 
+        colorBtnEl.addEventListener('click', changeColor);
+
         stickerEl.id = noteConfig.id;
         textareaEl.value = noteConfig.content;
         stickerEl.style.transform = noteConfig.transformCssValue; 
-
+        timeareaEl.innerText = noteConfig.time;
         saveBtnEl.classList.add('saveButton');
         deleteBtnEl.classList.add('deleteButton');
+        choosecolorBtnEl.classList.add('choosecolorButton');
+        colorBtnEl.classList.add('colorButton')
+        choosecolorBtnEl.type= 'color';
         barEl.classList.add('bar');
-        dateareaEl.classList.add('dataarea');
+        barEl.style.backgroundColor = noteConfig.color;
+        timeareaEl.classList.add('timearea');
         stickerEl.classList.add('sticker');
 
         barEl.appendChild(saveBtnEl);
-        barEl.appendChild(dateareaEl);
+        barEl.appendChild(timeareaEl);
         barEl.appendChild(deleteBtnEl);
+        barEl.appendChild(choosecolorBtnEl);
+        barEl.appendChild(colorBtnEl);
         stickerEl.appendChild(barEl);
         stickerEl.appendChild(textareaEl);
 
