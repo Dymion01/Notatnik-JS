@@ -89,7 +89,7 @@
         };   
 
         onSave = function () {
-
+            console.log(GetNoteObject(stickerEl));
             saveNote(
              GetNoteObject(stickerEl)
             );
@@ -101,7 +101,7 @@
         saveBtnEl.addEventListener('click', onSave);
         deleteBtnEl.addEventListener('click', onDelete);
 
- 
+
         stickerEl.style.transform = noteConfig.transformCssValue; 
 
         saveBtnEl.classList.add('saveButton');
@@ -141,21 +141,16 @@
             var message = "Nie można użyć localStorage";
         } else {
             saveNote = function (note){
-            localStorage.setItem(note.id , note);
+            localStorage.setItem(note.id , JSON.stringify(note));
+            console.log(localStorage.getItem(localStorage.key(0)));
             };
             deleteNote = function (note){
 
             };
             loadNotes = function (){
                 for(var i = 0; i < localStorage.length; i++) {
-     
-                    var noteObject = 
-                        localStorage.getItem(
-                            localStorage.key(i)
-                            
-                    );
-                    
-                    createNote( noteObject);
+
+                    createNote(JSON.parse(localStorage.getItem(localStorage.key(i))));
                 }
             };
 
